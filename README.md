@@ -1,6 +1,4 @@
 
-
-
 ## Proyecto: Utilizando NestJS, GraphQL y TypeORM a través de la arquitectura DDD
 
 ### Instalación
