@@ -12,8 +12,8 @@ export interface postRepositoryInterface {
 
     //COMMENT
     show_comment(uuid_post: string): Promise<commentTypeInterface[]>;
-    get_comment(uuid_post: string, uuid: string): Promise<commentTypeInterface>;
+    get_comment(uuid: string): Promise<commentTypeInterface>;
     create_comment(uuid_post: string, comment: commentTypeInterface): Promise<commentTypeInterface>;
-    update_comment(uuid_post: string, comment: commentTypeInterface): Promise<commentTypeInterface>;
-    delete_comment(uuid_post: string, uuid: string): Promise<commentTypeInterface>;
+    update_comment(comment: commentTypeInterface): Promise<commentTypeInterface>;
+    delete_comment(uuid: string): Promise<commentTypeInterface>;
 }

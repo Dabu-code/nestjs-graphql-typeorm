@@ -2,7 +2,7 @@ import { Field } from "@nestjs/graphql";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { commentModel } from "./types/comment.model";
 
-@Entity({name:'post',})
+@Entity({name:'postdb',})
 export class postModel{
     @PrimaryColumn({ type: 'varchar', length: 100 })
     @Field({ nullable: true })

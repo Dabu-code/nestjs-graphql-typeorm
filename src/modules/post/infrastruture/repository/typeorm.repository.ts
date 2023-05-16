@@ -15,7 +15,7 @@ export class typeormRepository implements postRepositoryInterface {
     ) { }
 
 
-    async show(): Promise<postEntityInterface[]> {
+    public async show(): Promise<postEntityInterface[]> {
         try {
             const listed: postModel[] = await this.post_repository.find();
             if (!listed) return undefined;
@@ -26,8 +26,7 @@ export class typeormRepository implements postRepositoryInterface {
         }
     }
 
-
-    async get(uuid: string): Promise<postEntityInterface> {
+    public async get(uuid: string): Promise<postEntityInterface> {
         try {
             const geted: postModel = await this.post_repository.findOneBy({ uuid });
             if (!geted) return undefined;
@@ -37,32 +36,42 @@ export class typeormRepository implements postRepositoryInterface {
         }
     }
 
-    async create(post: postEntityInterface): Promise<postEntityInterface> {
+    public async create(post: postEntityInterface): Promise<postEntityInterface> {
         try {
             const new_data: postModel = this.post_repository.create(post);
+            if (!new_data) return undefined;
             const created: postModel = await this.post_repository.save(new_data);
             return postTypeOrmUtils.get_post(created);
         } catch (e: any) {
             throw e;
         }
     }
-    update(post: postEntityInterface): Promise<postEntityInterface> {
-        /*try {
-            const update_data: postModel = this.post_repository.update(post);
-            const updated: postModel = await this.post_repository.save(update_data);
-            return postTypeOrmUtils.get_post(updated);
+
+    public async update(post: postEntityInterface): Promise<postEntityInterface> {
+        try {
+            const update_data: postModel = await this.post_repository.findOneBy({ uuid: post.uuid });
+            if (!update_data) return undefined;
+            //const updated: postModel = await this.post_repository.save(Object.assign(update_data, post));
+            //return postTypeOrmUtils.get_post(updated);
+            return postTypeOrmUtils.get_post(update_data);
         } catch (e: any) {
             throw e;
-        }*/
-        throw new Error("Method not implemented.");
-    }
-    delete(uuid: string): Promise<postEntityInterface> {
-        throw new Error("Method not implemented.");
+        }
     }
 
-    async show_comment(uuid_post: string): Promise<commentTypeInterface[]> {
+    public async delete(uuid: string): Promise<postEntityInterface> {
         try {
-            const listed: commentModel[] = await this.comment_repository.findBy({ uuid: uuid_post });
+            const deleted: postModel = await this.post_repository.findOneBy({ uuid });
+            await this.post_repository.delete(uuid);
+            return postTypeOrmUtils.get_post(deleted);
+        } catch (e: any) {
+            return e;
+        }
+    }
+
+    public async show_comment(uuid_post: string): Promise<commentTypeInterface[]> {
+        try {
+            const listed: commentModel[] = await this.comment_repository.findBy({ post: { uuid: uuid_post } });
             if (!listed) return undefined;
             return listed.map<commentModel>(item => postTypeOrmUtils.get_comment(item));
         } catch (e: any) {
@@ -70,9 +79,9 @@ export class typeormRepository implements postRepositoryInterface {
         }
     }
 
-    async get_comment(uuid_post: string, uuid: string): Promise<commentTypeInterface> {
+    public async get_comment(uuid: string): Promise<commentTypeInterface> {
         try {
-            const geted: commentModel = await this.comment_repository.findOneBy({ uuid: uuid_post });
+            const geted: commentModel = await this.comment_repository.findOneBy({ uuid });
             if (!geted) return undefined;
             return postTypeOrmUtils.get_comment(geted);
         } catch (error) {
@@ -80,11 +89,11 @@ export class typeormRepository implements postRepositoryInterface {
         }
     }
 
-    async create_comment(uuid_post: string, comment: commentTypeInterface): Promise<commentTypeInterface> {
+    public async create_comment(uuid_post: string, comment: commentTypeInterface): Promise<commentTypeInterface> {
         try {
             const new_data: commentModel = this.comment_repository.create({
                 ...comment,
-                uuid: uuid_post
+                post: { uuid: uuid_post }
             });
             const created: commentModel = await this.comment_repository.save(new_data);
             return postTypeOrmUtils.get_comment(created);
@@ -92,11 +101,29 @@ export class typeormRepository implements postRepositoryInterface {
             throw e;
         }
     }
-    update_comment(uuid_post: string, comment: commentTypeInterface): Promise<commentTypeInterface> {
-        throw new Error("Method not implemented.");
+
+    public async update_comment( comment: commentTypeInterface): Promise<commentTypeInterface> {
+        try {
+            const update_data: commentModel = await this.comment_repository.findOneBy({ uuid: comment.uuid });
+            if (!update_data) return undefined;
+            const updated: commentModel = await this.comment_repository.save(Object.assign(update_data, comment));
+            return postTypeOrmUtils.get_comment(updated);
+        } catch (e: any) {
+            throw e;
+        }
     }
-    delete_comment(uuid_post: string, uuid: string): Promise<commentTypeInterface> {
-        throw new Error("Method not implemented.");
+
+
+    public async delete_comment(uuid: string): Promise<commentTypeInterface> {
+        try {
+            const deleted: commentModel = await this.comment_repository.findOneBy({ uuid });
+            await this.comment_repository.delete(uuid);
+            return postTypeOrmUtils.get_comment(deleted);
+        } catch (e: any) {
+            return e;
+        }
     }
+
+
 
 }

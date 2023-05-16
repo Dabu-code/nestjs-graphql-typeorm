@@ -3,11 +3,13 @@
 # ------------------------------------------------------
 
 type Mutation {
-  create_post(post_input: createPostDto!): postSchema!
+  create_post(create_post: createPostDto!): postSchema!
+  delete_post(delete_post: String!): postSchema!
+  update_post(update_post: updatePostDto!): postSchema!
 }
 
 type Query {
-  post(uuid_post: String!): postSchema!
+  post(uuid: String!): postSchema!
   posts: [postSchema!]!
 }
 
@@ -20,6 +22,7 @@ type commentSchema {
 input createCommentDto {
   author: String!
   content: String!
+  uuid: String
 }
 
 input createPostDto {
@@ -27,6 +30,7 @@ input createPostDto {
   comments: [createCommentDto!]!
   content: String!
   title: String!
+  uuid: String
 }
 
 type postSchema {
@@ -35,4 +39,12 @@ type postSchema {
   content: String!
   title: String!
   uuid: String
+}
+
+input updatePostDto {
+  author: String!
+  comments: [createCommentDto!]!
+  content: String!
+  title: String!
+  uuid: String!
 }

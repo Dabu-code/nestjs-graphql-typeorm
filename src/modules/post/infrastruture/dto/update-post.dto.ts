@@ -2,9 +2,9 @@ import { Field, InputType } from "@nestjs/graphql";
 import { createCommentDto } from "./create-comment";
 
 @InputType()
-export class createPostDto{
-    @Field({nullable: true})
-    uuid?:string;
+export class updatePostDto{
+    @Field()
+    uuid:string;
     @Field()
     title:string;
     @Field()

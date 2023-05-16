@@ -3,6 +3,7 @@ import { postApplication } from "src/modules/post/application/post.application";
 import { typeormRepository } from "../../repository/typeorm.repository";
 import { postSchema } from "../../schema/post.schema";
 import { createPostDto } from "../../dto/create-post.dto";
+import { updatePostDto } from "../../dto/update-post.dto";
 
 @Injectable()
 export class postService {
@@ -22,6 +23,15 @@ export class postService {
 
     public create(post: createPostDto): Promise<postSchema> {
         return this.post_application.process.create(post);
+    }
+
+    public update(post: updatePostDto): Promise<postSchema> {
+        return this.post_application.process.update(post);
+    }
+
+
+    public delete(uuid: string): Promise<postSchema> {
+        return this.post_application.process.delete(uuid);
     }
 
 

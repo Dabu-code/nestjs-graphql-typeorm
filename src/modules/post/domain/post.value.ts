@@ -16,7 +16,7 @@ export class postValue implements postEntityInterface {
         this.comments = post.comments.map(item => {
             return {
                 ...item,
-                uuid: post.uuid ?? uuid()
+                uuid: item.uuid ?? uuid()
             }
         })
     }

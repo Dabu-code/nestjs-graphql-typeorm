@@ -3,7 +3,7 @@ import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { Field, ObjectType } from "@nestjs/graphql";
 import { postModel } from "../post.model";
 
-@Entity()
+@Entity({name:'commentdb',})
 @ObjectType()
 export class commentModel{
     @PrimaryColumn({type: "varchar", length: 100})

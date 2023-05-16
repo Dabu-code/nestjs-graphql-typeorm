@@ -5,7 +5,6 @@ import { commentTypeInterface } from "src/modules/post/domain/types/comment.type
 
 export class postTypeOrmUtils {
 
-
     public static get_post(model: postModel): postEntityInterface {
         return {
             uuid: model.uuid,
