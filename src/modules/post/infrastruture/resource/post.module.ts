@@ -5,12 +5,14 @@ import { commentModel } from '../model/types/comment.model';
 import { typeormRepository } from '../repository/typeorm.repository';
 import { postService } from './service/post.service';
 import { postResolver } from './resolver/post.resolver';
+import { postController } from './controller/post.controller';
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([postModel,commentModel])
   ],
-  providers: [typeormRepository,postService, postResolver]
+  providers: [typeormRepository,postService, postResolver],
+  controllers: [postController]
 })
 export class PostModule {}

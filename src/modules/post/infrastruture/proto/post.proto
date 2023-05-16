@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package post;
+
+service PostService {
+  rpc Find(Empty) returns (ListPost) {}
+}
+
+message Empty {}
+
+message Post {
+    string uuid = 1;
+    string author = 2;
+    string title = 3;
+    string content = 4;
+    ListComment comments =5
+}
+
+message Comment{
+    string uuid = 1;
+    string author = 2;
+    string content = 3; 
+}
+
+message ListPost{
+    repeated Post posts=1;
+}
+
+message ListComment{
+    repeated Comment comments=1;
+}
