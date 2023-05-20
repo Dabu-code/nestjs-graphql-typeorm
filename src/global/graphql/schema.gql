@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  create_post(create_post: createPostDto!): postSchema!
+}
+
+type Query {
+  post(uuid: String!): postSchema!
+  posts: [postSchema!]!
+}
+
+type commentSchema {
+  author: String!
+  content: String!
+  post: [postSchema!]!
+  uuid: String
+}
+
+input createCommentDto {
+  author: String!
+  content: String!
+  uuid: String
+}
+
+input createPostDto {
+  _id: String
+  author: String!
+  comments: [createCommentDto!]!
+  content: String!
+  title: String!
+  uuid: String
+}
+
+type postSchema {
+  author: String!
+  comments: [commentSchema!]!
+  content: String!
+  title: String!
+  uuid: String
+}
