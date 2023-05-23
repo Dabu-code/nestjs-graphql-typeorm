@@ -10,6 +10,7 @@ import { PostModule } from './modules/posts/infrastructure/resource/post.module'
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/test'),
+    
     PostModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

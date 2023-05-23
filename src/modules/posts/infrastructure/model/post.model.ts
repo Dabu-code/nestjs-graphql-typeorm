@@ -30,8 +30,9 @@ export class postModel {
     content: string;
 
     @Prop()
-    @Field(() => [commentModel])
-    comments: commentModel[];
+    @Field(()=>[commentModel])
+    comments?: commentModel[];
+
 }
 
 export const postSchema = SchemaFactory.createForClass(postModel);

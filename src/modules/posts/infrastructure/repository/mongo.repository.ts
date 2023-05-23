@@ -37,12 +37,11 @@ export class mongooseRepository implements postRepositoryInterface {
     }
 
     public async create(post: postEntityInterface): Promise<postEntityInterface> {
-        console.log('CREATE')
-        console.log(post)
-
         try {
             const _id = post.uuid;
-            delete post.uuid;
+            delete post.uuid, post.comments;
+            console.log("NUEVO POST ")
+            console.log(post)
             const new_data = new this.post_repository({ ...post, _id });
             if (!new_data) return undefined;
             const created: postModel = await new_data.save();
@@ -77,7 +76,9 @@ export class mongooseRepository implements postRepositoryInterface {
 
     public async show_comment(uuid_post: string): Promise<commentTypeInterface[]> {
         try {
-            const listed: commentModel[] = await this.comment_repository.findOne({ post: { uuid: uuid_post } });
+            const listed: commentModel[] = await this.comment_repository.findById("c15fb23d-82bd-4a30-aa39-d13bb8ad0563");
+            console.log("_________________listed")
+            console.log(listed)
             if (!listed) return undefined;
             return listed//.map<commentModel>(item => postRepositoryUtils.get_comment(item));
         } catch (e: any) {
@@ -96,17 +97,10 @@ export class mongooseRepository implements postRepositoryInterface {
     }
 
     public async create_comment(uuid_post: string, comment: commentTypeInterface): Promise<commentTypeInterface> {
-        console.log('Comment_______________')
-        console.log(uuid_post);
-        console.log(comment)
         try {
             const _id = comment.uuid;
             delete comment.uuid;
-            const new_data = new this.comment_repository({
-                ...comment,
-                post: { _id: uuid_post },
-                _id
-            });
+            const new_data = new this.comment_repository({ ...comment, post: uuid_post, _id });
             const created: commentModel = await new_data.save();
             console.log(created)
             console.log('____________________________________')
